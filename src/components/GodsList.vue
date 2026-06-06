@@ -1,5 +1,8 @@
 <script setup>
 import GodCard from "@/components/GodCard.vue";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 
 defineProps({
   gods: {
@@ -12,7 +15,11 @@ defineProps({
   }
 });
 
-const emit = defineEmits(["add-to-favorites", "show-modal"]);
+const openGod = (id) => {
+  router.push(`/god/${id}`);
+};
+
+const emit = defineEmits(["add-to-favorites"]);
 </script>
 
 <template>
@@ -23,7 +30,7 @@ const emit = defineEmits(["add-to-favorites", "show-modal"]);
       :god="god"
       :isFavorite="favorites.includes(god.name)"
       @add-to-favorites="emit('add-to-favorites', $event)"
-      @show-modal="emit('show-modal', $event)"
+      @click="openGod(god.id)"
     />
   </div>
 </template>

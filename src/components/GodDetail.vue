@@ -1,75 +1,97 @@
 <script setup>
-defineProps({
-  god: {
-    type: Object,
-    default: null
-  }
+import { computed, onMounted, ref } from "vue";
+import { useRoute } from "vue-router";
+import { getGods } from "@/services/godsService";
+
+const route = useRoute();
+
+const gods = ref([]);
+const god = computed(() =>
+  gods.value.find((god) => god.id === route.params.id)
+);
+
+onMounted(async () => {
+  gods.value = await getGods();
 });
-
-const emit = defineEmits(["close-modal"]);
-
-const close = () => {
-  emit("close-modal");
-};
 </script>
 
 <template>
-  <Transition name="modal">
-    <div class="modal-overlay" id="modal-overlay" v-if="god" @click="close">
-      <div class="modal" @click.stop>
-        <div class="modal-header">
-          <h1>{{ god.name }}</h1>
-          <button class="close-button" @click="close">X</button>
+  <div class="modal-overlay" id="modal-overlay">
+    <header>
+      <img src="/logo.png" alt="" />
+      <h1>Mythos</h1>
+    </header>
+    <div class="modal" @click.stop>
+      <div class="modal-header">
+        <button class="close-button" @click="$router.push('/')">←</button>
+        <h1>{{ god?.name }}</h1>
+      </div>
+
+      <div class="modal-content">
+        <div class="left-content">
+          <img :src="god?.image" :alt="god?.name" />
         </div>
 
-        <div class="modal-content">
-          <div class="left-content">
-            <img :src="god.image" :alt="god.name" />
-          </div>
+        <div class="right-content">
+          <section class="god-domain">
+            <h3>Domains</h3>
+            <ul>
+              <li v-for="domain in god?.domain" :key="domain">
+                {{ domain }}
+              </li>
+            </ul>
+          </section>
 
-          <div class="right-content">
-            <section class="god-domain">
-              <h3>Domains</h3>
-              <ul>
-                <li v-for="domain in god.domain" :key="domain">
-                  {{ domain }}
-                </li>
-              </ul>
-            </section>
+          <section class="god-symbol">
+            <h3>Symbols</h3>
+            <ul>
+              <li v-for="symbol in god?.symbols" :key="symbol">
+                {{ symbol }}
+              </li>
+            </ul>
+          </section>
 
-            <section class="god-symbol">
-              <h3>Symbols</h3>
-              <ul>
-                <li v-for="symbol in god.symbols" :key="symbol">
-                  {{ symbol }}
-                </li>
-              </ul>
-            </section>
+          <section class="god-trivia">
+            <h3>Trivia</h3>
+            <p>{{ god?.trivia }}</p>
+          </section>
 
-            <section class="god-trivia">
-              <h3>Trivia</h3>
-              <p>{{ god.trivia }}</p>
-            </section>
-
-            <section class="god-lore">
-              <h3>Lore</h3>
-              <p>{{ god.lore }}</p>
-            </section>
-          </div>
+          <section class="god-lore">
+            <h3>Lore</h3>
+            <p>{{ god?.lore }}</p>
+          </section>
         </div>
       </div>
     </div>
-  </Transition>
+  </div>
 </template>
 
 <style scoped>
+header {
+  display: flex;
+  z-index: 2000;
+  align-items: center;
+  gap: 10px;
+}
+
+header img {
+  width: 55px;
+  height: 55px;
+  object-fit: cover;
+}
+
+header h1 {
+  color: gold;
+}
+
 .modal-overlay {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 
-  position: fixed;
   inset: 0;
+  gap: 10px;
 
   width: 100vw;
   height: 100vh;
@@ -97,7 +119,8 @@ const close = () => {
   border-radius: 12px;
   border: 1px solid gold;
 
-  background-color: rgba(0, 0, 0, 1);
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(3px);
 
   box-shadow: 0 10px 25px rgba(255, 215, 0, 0.3);
 
@@ -107,8 +130,7 @@ const close = () => {
 .modal-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-
+  gap: 20px;
   width: 100%;
 
   padding: 5px 10px;
@@ -254,21 +276,6 @@ section {
   .close-button {
     font-size: 24px;
   }
-}
-
-/* modal opening/closing animation */
-.modal-overlay {
-  opacity: 1;
-}
-
-.modal-enter-from,
-.modal-leave-to {
-  opacity: 0;
-}
-
-.modal-enter-active,
-.modal-leave-active {
-  transition: opacity 0.2s ease;
 }
 
 /* Scrollbar width */
