@@ -25,7 +25,7 @@ const addToFavorites = (godName) => {
 };
 
 const filteredGods = computed(() => {
-  return gods.value.filter((god) => {
+  return (gods.value || []).filter((god) => {
     const filterMatch =
       selectedFilter.value === "All" || god.mythology === selectedFilter.value;
     const searchMatch = god.name
