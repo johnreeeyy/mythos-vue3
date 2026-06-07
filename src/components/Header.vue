@@ -65,7 +65,6 @@ const emit = defineEmits(["change-filter", "change-search", "show-favorites"]);
 
 header {
   position: relative;
-  z-index: 1;
 
   display: flex;
   align-items: center;
@@ -84,7 +83,6 @@ header h1 {
   gap: 6px;
   border: none;
   padding: 10px;
-  z-index: 1;
 }
 
 .filter-buttons button {
@@ -177,7 +175,6 @@ header img {
   font-size: 15px;
   border-radius: 5px;
   cursor: pointer;
-  z-index: 1000;
 }
 
 .favorites-toggle.active {

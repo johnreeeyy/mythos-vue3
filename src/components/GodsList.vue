@@ -38,7 +38,6 @@ const emit = defineEmits(["add-to-favorites"]);
 <style scoped>
 .gods-container {
   position: relative;
-  z-index: 1;
 
   display: grid;
 

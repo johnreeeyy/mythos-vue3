@@ -16,18 +16,18 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="modal-overlay" id="modal-overlay">
+  <div class="detail-overlay" id="detail-overlay">
     <header>
       <img src="/logo.png" alt="" />
       <h1>Mythos</h1>
     </header>
-    <div class="modal" @click.stop>
-      <div class="modal-header">
+    <div class="detail" @click.stop>
+      <div class="detail-header">
         <button class="close-button" @click="$router.push('/')">←</button>
         <h1>{{ god?.name }}</h1>
       </div>
 
-      <div class="modal-content">
+      <div class="detail-content">
         <div class="left-content">
           <img :src="god?.image" :alt="god?.name" />
         </div>
@@ -69,7 +69,6 @@ onMounted(async () => {
 <style scoped>
 header {
   display: flex;
-  z-index: 2000;
   align-items: center;
   gap: 10px;
 }
@@ -84,7 +83,7 @@ header h1 {
   color: gold;
 }
 
-.modal-overlay {
+.detail-overlay {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -96,12 +95,10 @@ header h1 {
   width: 100vw;
   height: 100vh;
 
-  background-color: rgba(0, 0, 0, 0.4);
-
-  z-index: 2000;
+  background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3));
 }
 
-.modal {
+.detail {
   width: min(700px, 95vw);
 
   height: 500px;
@@ -127,7 +124,7 @@ header h1 {
   line-height: 23px;
 }
 
-.modal-header {
+.detail-header {
   display: flex;
   align-items: center;
   gap: 20px;
@@ -138,7 +135,7 @@ header h1 {
   background-color: transparent;
 }
 
-.modal-content {
+.detail-content {
   display: grid;
   grid-template-columns: 280px 1fr;
 
@@ -222,14 +219,14 @@ section {
 
 /* MOBILE */
 @media (max-width: 685px) {
-  .modal {
+  .detail {
     width: 95vw;
     height: 90vh;
 
     border-radius: 10px;
   }
 
-  .modal-content {
+  .detail-content {
     display: flex;
     flex-direction: column;
 
@@ -269,7 +266,7 @@ section {
     padding-right: 4px;
   }
 
-  .modal-header {
+  .detail-header {
     padding: 10px;
   }
 
@@ -280,13 +277,13 @@ section {
 
 /* Scrollbar width */
 .right-content::-webkit-scrollbar,
-.modal-content::-webkit-scrollbar {
+.detail-content::-webkit-scrollbar {
   width: 10px;
 }
 
 /* Scrollbar track */
 .right-content::-webkit-scrollbar-track,
-.modal-content::-webkit-scrollbar-track {
+.detail-content::-webkit-scrollbar-track {
   background: rgba(0, 0, 0, 0.6);
 
   border-radius: 10px;
@@ -294,7 +291,7 @@ section {
 
 /* Scrollbar thumb */
 .right-content::-webkit-scrollbar-thumb,
-.modal-content::-webkit-scrollbar-thumb {
+.detail-content::-webkit-scrollbar-thumb {
   background: linear-gradient(180deg, rgb(255, 215, 0), rgb(184, 134, 11));
 
   border-radius: 10px;
@@ -304,7 +301,7 @@ section {
 
 /* Hover */
 .right-content::-webkit-scrollbar-thumb:hover,
-.modal-content::-webkit-scrollbar-thumb:hover {
+.detail-content::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(180deg, rgb(255, 230, 120), rgb(212, 175, 55));
 }
 </style>

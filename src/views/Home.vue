@@ -1,6 +1,7 @@
 <script setup>
 import GodsList from "@/components/GodsList.vue";
 import Header from "@/components/Header.vue";
+import Loading from "@/components/Loading.vue";
 import { getGods } from "@/services/godsService";
 import { computed, onMounted, ref } from "vue";
 
@@ -9,9 +10,18 @@ const selectedFilter = ref("All");
 const searchQuery = ref("");
 const favoriteGods = ref(JSON.parse(localStorage.getItem("favorites")) || []);
 const showFavorites = ref(false);
+const loading = ref(true);
 
 onMounted(async () => {
-  gods.value = await getGods();
+  try {
+    loading.value = true;
+
+    await new Promise((resolve) => setTimeout(resolve, 5000));
+
+    gods.value = await getGods();
+  } finally {
+    loading.value = false;
+  }
 });
 
 const addToFavorites = (godName) => {
@@ -46,7 +56,11 @@ const filteredGods = computed(() => {
     @change-search="searchQuery = $event"
     @show-favorites="showFavorites = !showFavorites"
   />
+
+  <Loading v-if="loading" loadingText="Summoning the Gods" />
+
   <GodsList
+    v-else
     :gods="filteredGods"
     :favorites="favoriteGods"
     @add-to-favorites="addToFavorites"
