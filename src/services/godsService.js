@@ -10,3 +10,12 @@ export const getGods = async () => {
     console.error("Error fetching gods", error);
   }
 };
+
+export const getGodById = async (id) => {
+  try {
+    const res = await axios.get(`${API_URL}/${id}`);
+    return res.data;
+  } catch (error) {
+    console.error("Error Fetching God Details", error);
+  }
+};

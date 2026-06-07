@@ -2,34 +2,19 @@
 import GodsList from "@/components/GodsList.vue";
 import Header from "@/components/Header.vue";
 import Loading from "@/components/Loading.vue";
-import { getGods } from "@/services/godsService";
 import { computed, onMounted, ref } from "vue";
+import { useFavorites } from "@/composables/useFavorite";
+import { useGods } from "@/composables/useGods";
 
-const gods = ref([]);
+const { gods, loading, fetchGods } = useGods();
 const selectedFilter = ref("All");
 const searchQuery = ref("");
-const favoriteGods = ref(JSON.parse(localStorage.getItem("favorites")) || []);
+const { favoriteGods, toggleFavorite } = useFavorites();
 const showFavorites = ref(false);
-const loading = ref(true);
 
-onMounted(async () => {
-  try {
-    loading.value = true;
-    gods.value = await getGods();
-  } finally {
-    loading.value = false;
-  }
+onMounted(() => {
+  fetchGods();
 });
-
-const addToFavorites = (godName) => {
-  if (favoriteGods.value.includes(godName)) {
-    favoriteGods.value = favoriteGods.value.filter((god) => god !== godName);
-  } else {
-    favoriteGods.value.push(godName);
-  }
-
-  localStorage.setItem("favorites", JSON.stringify(favoriteGods.value));
-};
 
 const filteredGods = computed(() => {
   return (gods.value || []).filter((god) => {
@@ -60,6 +45,6 @@ const filteredGods = computed(() => {
     v-else
     :gods="filteredGods"
     :favorites="favoriteGods"
-    @add-to-favorites="addToFavorites"
+    @add-to-favorites="toggleFavorite"
   />
 </template>

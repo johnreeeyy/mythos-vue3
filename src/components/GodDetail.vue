@@ -1,18 +1,18 @@
 <script setup>
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted } from "vue";
 import { useRoute } from "vue-router";
-import { getGods } from "@/services/godsService";
+import { useGods } from "@/composables/useGods";
 
 const route = useRoute();
+const { gods, fetchGods } = useGods();
 
-const gods = ref([]);
+onMounted(() => {
+  fetchGods();
+});
+
 const god = computed(() =>
   gods.value.find((god) => god.id === route.params.id)
 );
-
-onMounted(async () => {
-  gods.value = await getGods();
-});
 </script>
 
 <template>
