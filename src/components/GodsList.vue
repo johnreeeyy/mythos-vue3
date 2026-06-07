@@ -1,8 +1,5 @@
 <script setup>
 import GodCard from "@/components/GodCard.vue";
-import { useRouter } from "vue-router";
-
-const router = useRouter();
 
 defineProps({
   gods: {
@@ -15,10 +12,6 @@ defineProps({
   }
 });
 
-const openGod = (id) => {
-  router.push(`/god/${id}`);
-};
-
 const emit = defineEmits(["add-to-favorites"]);
 </script>
 
@@ -26,11 +19,10 @@ const emit = defineEmits(["add-to-favorites"]);
   <div class="gods-container">
     <GodCard
       v-for="god in gods"
-      :key="god.name"
+      :key="god.id"
       :god="god"
       :isFavorite="favorites.includes(god.name)"
       @add-to-favorites="emit('add-to-favorites', $event)"
-      @click="openGod(god.id)"
     />
   </div>
 </template>

@@ -1,6 +1,7 @@
+import { createWebHistory, createRouter } from "vue-router";
 import GodDetails from "@/views/GodDetails.vue";
 import Home from "@/views/Home.vue";
-import { createWebHistory, createRouter } from "vue-router";
+import Gods from "@/views/Gods.vue";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -9,6 +10,11 @@ const router = createRouter({
       path: "/",
       name: "home",
       component: Home
+    },
+    {
+      path: "/gods",
+      name: "gods",
+      component: Gods
     },
     {
       path: "/god/:id",
