@@ -1,14 +1,22 @@
 <script setup>
-defineProps({
+import { useRouter } from "vue-router";
+
+const props = defineProps({
   god: Object,
   isFavorite: Boolean
 });
 
 const emit = defineEmits(["add-to-favorites", "show-modal", "close-modal"]);
+
+const router = useRouter();
+
+const openGod = () => {
+  router.push(`/god/${props.god.id}`);
+};
 </script>
 
 <template>
-  <div class="gods-card" @click="emit('show-modal', god)">
+  <div class="gods-card" @click="openGod">
     <img :src="god.image" :alt="god.name" />
 
     <div class="gods-identity">

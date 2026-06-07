@@ -23,7 +23,7 @@ const god = computed(() =>
     </header>
     <div class="detail" @click.stop>
       <div class="detail-header">
-        <button class="close-button" @click="$router.push('/')">←</button>
+        <button class="close-button" @click="$router.push('/gods')">←</button>
         <h1>{{ god?.name }}</h1>
       </div>
 
