@@ -15,9 +15,6 @@ const loading = ref(true);
 onMounted(async () => {
   try {
     loading.value = true;
-
-    await new Promise((resolve) => setTimeout(resolve, 5000));
-
     gods.value = await getGods();
   } finally {
     loading.value = false;
